@@ -15,7 +15,12 @@ class ContactDetails extends React.Component {
           type:'text',
           placeholder:'Your Name'
         },
-        value:''
+        value:'',
+        validation:{
+          required:true
+        },
+        valid:false,
+        touched:false
       },
 
       email:{
@@ -24,7 +29,12 @@ class ContactDetails extends React.Component {
           type:'email',
           placeholder:'Your E-mail'
         },
-        value:''
+        value:'',
+        validation:{
+          required:true
+        },
+        valid:false,
+        touched:false
       },
 
       street:{
@@ -33,7 +43,12 @@ class ContactDetails extends React.Component {
           type:'text',
           placeholder:'Your Street Address'
         },
-        value:''
+        value:'',
+        validation:{
+          required:true
+        },
+        valid:false,
+        touched:false
       },
       postalCode:{
         elementType:'input',
@@ -41,7 +56,14 @@ class ContactDetails extends React.Component {
           type:'text',
           placeholder:'Your Postal Code'
         },
-        value:''
+        value:'',
+        validation:{
+          required:true,
+          minLength:5,
+          maxLength:5
+        },
+        valid:false,
+        touched:false
       },
       delivery:{
         elementType:'select',
@@ -52,12 +74,15 @@ class ContactDetails extends React.Component {
             {value:"cheapest",displayValue:"Slow Delivery"},
         ]
         },
-        value:''
+        value:'',
+        valid:true,
+        validation:{}
       },
 
     },
 
-    loading:false
+    loading:false,
+    formIsValid:false
   }
 
   orderHandler = (e)=>{
@@ -86,6 +111,23 @@ class ContactDetails extends React.Component {
             this.props.history.push('/')
   }
 
+      checkValidation(value,rules){
+        if(!rules){
+          return true
+        }
+        let isValid = true
+        if(rules.required){
+          isValid = value.trim() !== "" && isValid
+        }
+        if(rules.minLength){
+          isValid = value.length >= rules.minLength && isValid
+        }
+        if(rules.maxLength){
+          isValid = value.length <= rules.maxLength && isValid
+        }
+        return isValid
+      }
+
   inputChangedHandler = (e,inputIdentifier)=>{
     // console.log(e.target.value);
     const updatedOrderForm ={
@@ -97,8 +139,16 @@ class ContactDetails extends React.Component {
       ...updatedOrderForm[inputIdentifier]
     }
     updatedFormElement.value = e.target.value
+    updatedFormElement.valid = this.checkValidation(updatedFormElement.value,updatedFormElement.validation)
+    updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement
-    this.setState({orderForm:updatedOrderForm})
+    console.log(updatedFormElement);
+    let formValid = true;
+    for(let inputIdentifier in updatedOrderForm){
+      formValid = updatedOrderForm[inputIdentifier].valid && formValid
+    }
+    console.log(formValid);
+    this.setState({orderForm:updatedOrderForm,formIsValid:formValid})
 
   }
 
@@ -119,11 +169,14 @@ class ContactDetails extends React.Component {
              return <Input key={formElement.id} elementType={formElement.config.elementType}
               elementConfig={formElement.config.elementConfig}
               value={formElement.config.value}
+              invalid = {!formElement.config.valid}
+              shouldValidate={formElement.config.validation}
+              touched={formElement.config.touched}
               changed={(e)=>this.inputChangedHandler(e,formElement.id)}
            />
           })}
           <hr/>
-          <Button btnType="Success">ORDER</Button>
+          <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
       </form>
     );
     if(this.state.loading){
@@ -131,7 +184,7 @@ class ContactDetails extends React.Component {
     }
     return(
         <div className={classes.ContactDetails}>
-          <h1>Enter Your Contact Details</h1>
+          <h4>Enter Your Contact Details</h4>
           {form}
         </div>
     )
