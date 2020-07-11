@@ -7,7 +7,7 @@
   box-sizing: border-box;
 
 }
-.ContactDetails input{
+/* .ContactDetails input{
   height: 30px;
   width: 300px;
   border: 1px solid #ccc;
@@ -15,7 +15,7 @@
   padding: 10px;
   margin: 20px;
   background: #fff;
-}
+} */
 
 @media(min-width:500px) {
   .ContactDetails{
