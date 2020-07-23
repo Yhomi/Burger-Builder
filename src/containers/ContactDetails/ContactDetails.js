@@ -4,6 +4,7 @@ import classes from './ContactDetails.module.css';
 import axios from '../../axios-orders/axios';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Input from '../../components/UI/Input/Input';
+import {connect} from 'react-redux';
 // import {withRouter} from 'react-router-dom';
 
 class ContactDetails extends React.Component {
@@ -87,7 +88,7 @@ class ContactDetails extends React.Component {
 
   orderHandler = (e)=>{
       e.preventDefault();
-      console.log(this.props.ingredients);
+      console.log(this.props.ings);
 
       this.setState({loading:true})
       const formData = {}
@@ -95,7 +96,7 @@ class ContactDetails extends React.Component {
         formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
       }
       const order={
-        ingredients:this.props.ingredients,
+        ingredients:this.props.ings,
         price:this.props.price,
         oderData:formData
       }
@@ -191,4 +192,11 @@ class ContactDetails extends React.Component {
   }
 }
 
-export default ContactDetails;
+const mapStateToProps = state =>{
+  return{
+    ings:state.ingredients,
+    price:state.totalPrice
+  }
+}
+
+export default connect(mapStateToProps)(ContactDetails);
