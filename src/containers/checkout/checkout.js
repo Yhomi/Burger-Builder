@@ -1,11 +1,14 @@
 import React from 'react'
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
-import {Route} from 'react-router-dom';
+import {Route,Redirect} from 'react-router-dom';
 import ContactDetails from '../ContactDetails/ContactDetails';
 import {connect} from 'react-redux';
 
 
 class Checkout extends React.Component {
+  componentDidMount(){
+
+  }
   // state={
   //   ingredients:null,
   //   totalPrice:0
@@ -31,24 +34,29 @@ class Checkout extends React.Component {
     this.props.history.replace('/checkout/details')
   }
   render () {
+    let summary =(<Redirect to="/" />)
+    if(this.props.ings){
+      summary = (
+        <div>
+          <CheckoutSummary ingredients={this.props.ings}
+             checkoutCancel={this.checkoutCancelHandler}
+             checkoutContinue={this.checkoutContinueHandler}
+              />
+            <Route path={this.props.match.url + '/details'} exact component={ContactDetails}/>
+        </div>
+      )
+    }
 
-    return(
-      <div>
-        <CheckoutSummary ingredients={this.props.ings}
-           checkoutCancel={this.checkoutCancelHandler}
-           checkoutContinue={this.checkoutContinueHandler}
-            />
-          <Route path={this.props.match.url + '/details'} exact component={ContactDetails}/>
-      </div>
-    )
+    return summary
 
   }
 }
 const mapStateToProps = state =>{
   return{
-    ings:state.ingredients,
-    price:state.totalPrice
+    ings:state.burgerBuilder.ingredients,
+    price:state.burgerBuilder.totalPrice
   }
 }
+
 
 export default connect(mapStateToProps)(Checkout);

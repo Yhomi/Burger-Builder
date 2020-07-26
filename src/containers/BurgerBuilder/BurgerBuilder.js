@@ -4,7 +4,7 @@ import Burger from '../../components/Burger/burger';
 import BuildControls from '../../components/Burger/BuildControls/buildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/Order/OrderSummary';
-import * as actionTypes from '../../store/action';
+import * as actionCreators from '../../store/actions/index';
 
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withError from '../../hoc/withError/withError';
@@ -16,19 +16,13 @@ import {connect} from 'react-redux';
 class BurgerBuilder extends Component{
   state={
     purchasing:false,
-    loading:false,
-    err:false
+    // loading:false,
+    // err:false
   }
 
   componentDidMount(){
     console.log(this.props)
-    // axios.get('/ingredients.json')
-    //       .then(res=>{
-    //         this.setState({ingredients:res.data})
-    //       })
-    //       .catch(error=>{
-    //         this.setState({err:true})
-    //       })
+    this.props.onInitIgredient()
   }
 
   updatePurchasable(ingredients){
@@ -113,7 +107,7 @@ class BurgerBuilder extends Component{
       disabledInfo[key]=disabledInfo[key] <=0
     }
     let orderSummary=null
-    let burger =this.state.err? <h1>Ingredients can't be loaded</h1>:<Spinner />
+    let burger =this.props.err? <h1>Ingredients can't be loaded</h1>:<Spinner />
   if(this.props.ings){
 
       burger = <Aux>
@@ -132,9 +126,9 @@ class BurgerBuilder extends Component{
       purchaseCancel={this.purchaseCancel} />;
     }
 
-    if(this.state.loading){
-      orderSummary=<Spinner />
-    }
+    // if(this.state.loading){
+    //   orderSummary=<Spinner />
+    // }
 
     return(
       <Aux>
@@ -149,15 +143,17 @@ class BurgerBuilder extends Component{
 
 const mapStateToProps = state =>{
   return{
-    ings:state.ingredients,
-    price:state.totalPrice
+    ings:state.burgerBuilder.ingredients,
+    price:state.burgerBuilder.totalPrice,
+    err:state.burgerBuilder.err
   }
 }
 
 const mapDispatchToProps = dispatch =>{
   return{
-    onIngredientAdded: (ingName)=>dispatch({type:actionTypes.ADD_INGREDIENT,ingredientName:ingName}),
-    onIngredientRemoved:(ingName)=>dispatch({type:actionTypes.REMOVE_INGREDIENT,ingredientName:ingName})
+    onIngredientAdded: (ingName)=>dispatch(actionCreators.addIngredient(ingName)),
+    onIngredientRemoved:(ingName)=>dispatch(actionCreators.removeIngredient(ingName)),
+    onInitIgredient: ()=>dispatch(actionCreators.initIngredient())
   }
 }
 
