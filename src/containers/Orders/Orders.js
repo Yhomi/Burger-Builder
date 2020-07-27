@@ -10,7 +10,7 @@ class Orders extends React.Component {
 
 
   componentDidMount(){
-    this.props.onFetchedOrders()
+    this.props.onFetchedOrders(this.props.token)
   }
   render () {
             let orders =<Spinner />
@@ -34,13 +34,14 @@ class Orders extends React.Component {
 const mapStateToProps = state =>{
   return{
     orders:state.orders.orders,
-    loading:state.orders.loading
+    loading:state.orders.loading,
+    token:state.auth.token
   }
 }
 
 const mapDispatchToProps = dispatch =>{
   return{
-    onFetchedOrders: ()=> dispatch(actions.fetchedOrders())
+    onFetchedOrders: (token)=> dispatch(actions.fetchedOrders(token))
   }
 }
 

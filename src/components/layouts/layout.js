@@ -3,6 +3,7 @@ import Aux from '../../hoc/Auxiliary';
 import Toolbar from '../Navigation/Toolbar/Toolbar';
 import classes from './layout.module.css';
 import SideDraw from '../Navigation/SideDrawer/SideDraw';
+import {connect} from 'react-redux';
 
 class Layout extends Component{
   state={
@@ -16,7 +17,7 @@ class Layout extends Component{
 
   toggleSideDrawHandler=()=>{
     this.setState(prevState=>{
-      return {showSideDraw:!prevState.showSideDraw}
+      return {showSideDraw:!prevState.showSideDraw} 
     })
   }
 
@@ -24,11 +25,18 @@ class Layout extends Component{
   render(){
     return(
       <Aux>
-        <Toolbar click={this.toggleSideDrawHandler} />
-        <SideDraw open={this.state.showSideDraw} closed={this.sideDrawClosedHandler}  />
+        <Toolbar click={this.toggleSideDrawHandler} isAuth={this.props.token} />
+        <SideDraw open={this.state.showSideDraw} closed={this.sideDrawClosedHandler} isAuth={this.props.token}  />
         <main className={classes.content}>{this.props.children}</main>
       </Aux>
     )
   }
 }
-export default Layout;
+
+const mapStateToProps = state =>{
+  return{
+    token:state.auth.token !==null
+  }
+}
+
+export default connect(mapStateToProps)(Layout);

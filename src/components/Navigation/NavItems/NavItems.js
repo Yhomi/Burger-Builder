@@ -3,11 +3,12 @@ import classes from './NavItems.module.css';
 import NavItem from './NavItem/NavItem';
 
 
-const navItems = ()=>(
+const navItems = (props)=>(
   <ul className={classes.NavItems}>
       <NavItem link='/'>Burger Builder</NavItem>
       <NavItem link='/orders' >Orders</NavItem>
-      <NavItem link='/auth'>Log in</NavItem>
+      {!props.isAuthenticated ?<NavItem link='/auth'>Authenticate</NavItem>:<NavItem link='/logout'>Logout</NavItem>}
+
   </ul>
 );
 
