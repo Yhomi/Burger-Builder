@@ -98,7 +98,8 @@ class ContactDetails extends React.Component {
       const order={
         ingredients:this.props.ings,
         price:this.props.price,
-        oderData:formData
+        oderData:formData,
+        user_id:this.props.userId
       }
       this.props.onOrderBurger(order,this.props.token);
       // axios.post('/orders.json',order)
@@ -198,7 +199,8 @@ const mapStateToProps = state =>{
     ings:state.burgerBuilder.ingredients,
     price:state.burgerBuilder.totalPrice,
     loading:state.orders.loading,
-    token:state.auth.token
+    token:state.auth.token,
+    userId:state.auth.userId
   }
 }
 

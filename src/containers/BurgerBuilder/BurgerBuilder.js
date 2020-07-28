@@ -16,8 +16,7 @@ import {connect} from 'react-redux';
 class BurgerBuilder extends Component{
   state={
     purchasing:false,
-    // loading:false,
-    // err:false
+
   }
 
   componentDidMount(){
@@ -77,7 +76,7 @@ class BurgerBuilder extends Component{
   // }
 
   purchasingHandle =()=>{
-    if(this.props.isAuth){
+    if(this.props.token){
       this.setState({purchasing:true})
     }else{
       this.props.onSetAuthRedirectPath('/checkout')
@@ -91,6 +90,7 @@ class BurgerBuilder extends Component{
   }
 
   purchaseContinue = ()=>{
+    this.props.onInitPurchase()
     this.props.history.push('/checkout')
 
     // const queryParams = [];
@@ -162,6 +162,7 @@ const mapDispatchToProps = dispatch =>{
     onIngredientAdded: (ingName)=>dispatch(actionCreators.addIngredient(ingName)),
     onIngredientRemoved:(ingName)=>dispatch(actionCreators.removeIngredient(ingName)),
     onInitIgredient: ()=>dispatch(actionCreators.initIngredient()),
+     onInitPurchase: () => dispatch(actionCreators.purchaseInit()),
     onSetAuthRedirectPath: (path)=>dispatch(actionCreators.setAuthRedirectPath(path))
   }
 }

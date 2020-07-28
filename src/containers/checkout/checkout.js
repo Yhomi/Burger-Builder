@@ -36,13 +36,15 @@ class Checkout extends React.Component {
   render () {
     let summary =(<Redirect to="/" />)
     if(this.props.ings){
+      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> :null
       summary = (
         <div>
+          {purchasedRedirect}
           <CheckoutSummary ingredients={this.props.ings}
              checkoutCancel={this.checkoutCancelHandler}
              checkoutContinue={this.checkoutContinueHandler}
               />
-            <Route path={this.props.match.url + '/details'} exact component={ContactDetails}/>
+            <Route path={this.props.match.path + '/details'} exact component={ContactDetails}/>
         </div>
       )
     }
@@ -54,7 +56,8 @@ class Checkout extends React.Component {
 const mapStateToProps = state =>{
   return{
     ings:state.burgerBuilder.ingredients,
-    price:state.burgerBuilder.totalPrice
+    price:state.burgerBuilder.totalPrice,
+    purchased:state.orders.purchased
   }
 }
 

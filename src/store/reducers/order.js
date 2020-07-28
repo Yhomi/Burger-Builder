@@ -3,14 +3,18 @@ import {updatedObject} from '../utility';
 
 const initialState = {
   orders:[],
-  loading:false
+  loading:false,
+  purchased:false
 }
+
+const purchaseInit = ( state, action ) => {
+    return updatedObject( state, { purchased: false } );
+};
 
 const orderReducer = (state = initialState, action)=>{
   switch (action.type) {
 
     case actionTypes.PURCHASE_BURGER_SUCCESS:
-
         const newOrder = updatedObject(action.orderData,{id:action.orderId})
         return updatedObject(state,{loading:false,
         orders:state.orders.concat(newOrder)})
@@ -30,6 +34,8 @@ const orderReducer = (state = initialState, action)=>{
       break;
     case actionTypes.FETCH_ORDERS_FAIL:
         return updatedObject(state,{  loading:false})
+      break;
+    case actionTypes.PURCHASE_INIT:return purchaseInit(state, action)
       break;
     default:
       return state
