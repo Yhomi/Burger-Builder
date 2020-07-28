@@ -4,7 +4,8 @@ import {updatedObject} from '../utility';
 const initialState = {
   ingredients:null,
   totalPrice:5,
-  err:false
+  err:false,
+  building:false
 }
 
 const INGREDIENT_PRICES={
@@ -22,7 +23,9 @@ const addIngredient = (state,action)=>{
   const ingredientAdd = updatedObject(state.ingredients,updateIngAdd)
   const updatedStateAdd ={
       ingredients:ingredientAdd,
-      totalPrice:state.totalPrice +INGREDIENT_PRICES [action.ingredientName]}
+      totalPrice:state.totalPrice +INGREDIENT_PRICES [action.ingredientName],
+      building:true
+    }
 
       // updatedObject is a utilty function to refactor the code
     return updatedObject(state, updatedStateAdd)
@@ -34,7 +37,9 @@ const removeIngredient = (state,action)=>{
     const ingredientRem = updatedObject(state.ingredients,updateIngRem)
     const updatedStateRem ={
       ingredients:ingredientRem,
-      totalPrice:state.totalPrice - INGREDIENT_PRICES [action.ingredientName]}
+      totalPrice:state.totalPrice - INGREDIENT_PRICES [action.ingredientName],
+      building:true
+    }
     return updatedObject(state, updatedStateRem)
 }
 
@@ -49,7 +54,8 @@ const setIngredient = (state,action)=>{
   const inge ={
     ingredients:ingSet,
     totalPrice:5,
-    err:false
+    err:false,
+    building:false
   }
   return updatedObject(state,inge)
 }

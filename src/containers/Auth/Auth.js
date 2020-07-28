@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
@@ -7,6 +8,7 @@ import {connect} from 'react-redux';
 import * as actions from '../../store/actions/index';
 
 class Auth extends Component{
+
   state = {
     controls:{
       email:{
@@ -39,6 +41,12 @@ class Auth extends Component{
     },
   },
     isSignUp:false
+  }
+
+  componentDidMount(){
+    if(!this.props.buildingBurger && this.props.authRedirectPath !=='/'){
+      this.props.onSetAuthRedirectPath('/')
+    }
   }
 
   // validation
@@ -110,7 +118,7 @@ class Auth extends Component{
         color:'white',
         border:'1px solid #fff',
         backgroundColor:'red',
-        
+
       }
       let erroMsg = null
       if(this.props.error){
@@ -118,10 +126,15 @@ class Auth extends Component{
           <p style={errorStyle}>{this.props.error.message}</p>
         )
       }
+      let isAuth = null;
+      if(this.props.isAuthenticated){
+        isAuth =<Redirect to={this.props.authRedirectPath} />
+      }
     return(
       <div className={classes.Auth}>
           <form onSubmit={this.submitHandler}>
             {erroMsg}
+            {isAuth}
               {form}
               <Button btnType="Success">{this.state.isSignUp ? "SIGN UP" : "SIGN IN"}</Button>
           </form>
@@ -134,13 +147,17 @@ class Auth extends Component{
 const mapStateToProps = state =>{
   return{
       loading: state.auth.loading,
-      error:state.auth.error
+      error:state.auth.error,
+      isAuthenticated:state.auth.token !==null,
+      buildingBurger:state.burgerBuilder.building,
+      authRedirectPath:state.auth.authRedirect
   }
 }
 
 const mapDispatchToProps = (dispatch) =>{
   return{
-    onAuthenticate: (email,password,isSignUp)=>dispatch(actions.auth(email,password,isSignUp))
+    onAuthenticate: (email,password,isSignUp)=>dispatch(actions.auth(email,password,isSignUp)),
+    onSetAuthRedirectPath: (path)=>dispatch(actions.setAuthRedirectPath(path))
   }
 }
 
