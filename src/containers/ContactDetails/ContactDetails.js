@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 // import {withRouter} from 'react-router-dom';
 import withError from '../../hoc/withError/withError';
 import * as actions from '../../store/actions/index';
+import {checkValidation} from '../../shared/utility';
 
 class ContactDetails extends React.Component {
   state={
@@ -90,7 +91,7 @@ class ContactDetails extends React.Component {
 
   orderHandler = (e)=>{
       e.preventDefault();
-      console.log(this.props.ings);
+
       const formData = {}
       for(let formElementIdentifier in this.state.orderForm){
         formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
@@ -104,35 +105,19 @@ class ContactDetails extends React.Component {
       this.props.onOrderBurger(order,this.props.token);
       // axios.post('/orders.json',order)
       //       .then(res=>{
-      //           console.log(res)
+      //          
       //           this.setState({loading:false})
       //       })
       //       .catch(err=>{
-      //         console.log(err)
+      //
       //         this.setState({loading:false})
       //       })
             this.props.history.push('/')
   }
 
-      checkValidation(value,rules){
-        if(!rules){
-          return true
-        }
-        let isValid = true
-        if(rules.required){
-          isValid = value.trim() !== "" && isValid
-        }
-        if(rules.minLength){
-          isValid = value.length >= rules.minLength && isValid
-        }
-        if(rules.maxLength){
-          isValid = value.length <= rules.maxLength && isValid
-        }
-        return isValid
-      }
 
   inputChangedHandler = (e,inputIdentifier)=>{
-    // console.log(e.target.value);
+
     const updatedOrderForm ={
       ...this.state.orderForm
     };
@@ -142,15 +127,15 @@ class ContactDetails extends React.Component {
       ...updatedOrderForm[inputIdentifier]
     }
     updatedFormElement.value = e.target.value
-    updatedFormElement.valid = this.checkValidation(updatedFormElement.value,updatedFormElement.validation)
+    updatedFormElement.valid = checkValidation(updatedFormElement.value,updatedFormElement.validation)
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement
-    console.log(updatedFormElement);
+
     let formValid = true;
     for(let inputIdentifier in updatedOrderForm){
       formValid = updatedOrderForm[inputIdentifier].valid && formValid
     }
-    console.log(formValid);
+
     this.setState({orderForm:updatedOrderForm,formIsValid:formValid})
 
   }
