@@ -13,7 +13,7 @@ import {connect} from 'react-redux';
 
 
 
-class BurgerBuilder extends Component{
+export class BurgerBuilder extends Component{
   state={
     purchasing:false,
 
@@ -37,7 +37,7 @@ class BurgerBuilder extends Component{
   //   const oldCount= this.state.ingredients[type];
   //
   //   const updateCount= oldCount + 1;
-  
+
   //   const updatedIngredient={
   //     ...this.state.ingredients
   //   }
@@ -142,6 +142,7 @@ class BurgerBuilder extends Component{
           {orderSummary}
         </Modal>
         {burger}
+        {this.props.ings}
       </Aux>
     )
   }
