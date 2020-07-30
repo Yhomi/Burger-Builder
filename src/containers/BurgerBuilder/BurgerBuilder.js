@@ -13,7 +13,7 @@ import {connect} from 'react-redux';
 
 
 
-export class BurgerBuilder extends Component{
+class BurgerBuilder extends Component{
   state={
     purchasing:false,
 
