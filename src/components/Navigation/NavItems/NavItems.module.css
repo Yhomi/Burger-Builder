@@ -8,9 +8,12 @@
   height: 100%;
 }
 
-@media (max-width:400px) {
+@media (min-width:400) {
   .NavItems{
+    float: left;
+    height: 100%;
     display: flex;
     flex-flow: column;
+    align-items: center;
   }
 }
