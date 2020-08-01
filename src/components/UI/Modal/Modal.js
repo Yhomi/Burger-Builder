@@ -8,9 +8,7 @@ class Modal extends Component{
       return nextProps.show !== this.props.show || nextProps.children !== this.props.children
   }
 
-  componentDidUpdate(){
-    console.log('[Modal]: componentDidUpdate');
-  }
+  
   render(){
     return(
       <Aux>

@@ -90,7 +90,7 @@ class ContactDetails extends React.Component {
 
   orderHandler = (e)=>{
       e.preventDefault();
-      console.log(this.props.ings);
+
       const formData = {}
       for(let formElementIdentifier in this.state.orderForm){
         formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value
@@ -104,11 +104,11 @@ class ContactDetails extends React.Component {
       this.props.onOrderBurger(order,this.props.token);
       // axios.post('/orders.json',order)
       //       .then(res=>{
-      //           console.log(res)
+      //
       //           this.setState({loading:false})
       //       })
       //       .catch(err=>{
-      //         console.log(err)
+      //
       //         this.setState({loading:false})
       //       })
             this.props.history.push('/')
@@ -132,7 +132,7 @@ class ContactDetails extends React.Component {
       }
 
   inputChangedHandler = (e,inputIdentifier)=>{
-    // console.log(e.target.value);
+    //
     const updatedOrderForm ={
       ...this.state.orderForm
     };
@@ -145,12 +145,12 @@ class ContactDetails extends React.Component {
     updatedFormElement.valid = this.checkValidation(updatedFormElement.value,updatedFormElement.validation)
     updatedFormElement.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormElement
-    console.log(updatedFormElement);
+
     let formValid = true;
     for(let inputIdentifier in updatedOrderForm){
       formValid = updatedOrderForm[inputIdentifier].valid && formValid
     }
-    console.log(formValid);
+    
     this.setState({orderForm:updatedOrderForm,formIsValid:formValid})
 
   }

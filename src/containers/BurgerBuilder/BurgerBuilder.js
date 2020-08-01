@@ -20,7 +20,7 @@ class BurgerBuilder extends Component{
   }
 
   componentDidMount(){
-    console.log(this.props)
+
     this.props.onInitIgredient()
   }
 
@@ -36,16 +36,16 @@ class BurgerBuilder extends Component{
 
   // addIngredientHandler= (type)=>{
   //   const oldCount= this.state.ingredients[type];
-  //   // console.log(oldCount);
+  //   //
   //   const updateCount= oldCount + 1;
 
 
   //   const updatedIngredient={
   //     ...this.state.ingredients
   //   }
-  //   // console.log(updatedIngredient);
+  //   //
   //   updatedIngredient[type]=updateCount;
-  //   // console.log(updatedIngredient);
+  //   // 
   //   const priceAddition=INGREDIENT_PRICES[type];
   //   const oldPrice=this.state.totalPrice;
   //   const updatedPrice= oldPrice + priceAddition;
@@ -144,10 +144,6 @@ class BurgerBuilder extends Component{
           {orderSummary}
         </Modal>
         {burger}
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of cb0b4f0... enzyme test
       </Aux>
     )
   }
