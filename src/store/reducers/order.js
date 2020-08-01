@@ -18,25 +18,25 @@ const orderReducer = (state = initialState, action)=>{
         const newOrder = updatedObject(action.orderData,{id:action.orderId})
         return updatedObject(state,{loading:false,
         orders:state.orders.concat(newOrder)})
-      break;
+    
     case actionTypes.PURCHASE_BURGER_FAILURE:
         return updatedObject(state,{  loading:false})
-      break;
+    
     case actionTypes.PURCHASE_BURGER_START:
         return updatedObject(state,{  loading:true})
-      break;
+    
     case actionTypes.FETCH_ORDERS_START:
         return updatedObject(state,{  loading:true})
-      break;
+    
     case actionTypes.FETCH_ORDERS_SUCCESS:
         return updatedObject(state,{orders:action.order,
                 loading:false})
-      break;
+    
     case actionTypes.FETCH_ORDERS_FAIL:
         return updatedObject(state,{  loading:false})
-      break;
+    
     case actionTypes.PURCHASE_INIT:return purchaseInit(state, action)
-      break;
+    
     default:
       return state
   }
