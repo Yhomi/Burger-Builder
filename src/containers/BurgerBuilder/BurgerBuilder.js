@@ -38,11 +38,8 @@ class BurgerBuilder extends Component{
   //   const oldCount= this.state.ingredients[type];
   //   // console.log(oldCount);
   //   const updateCount= oldCount + 1;
-<<<<<<< HEAD
 
-=======
-  //   // console.log(updateCount);
->>>>>>> parent of abd9d0d... lazy loading& cleaning
+
   //   const updatedIngredient={
   //     ...this.state.ingredients
   //   }
@@ -147,7 +144,10 @@ class BurgerBuilder extends Component{
           {orderSummary}
         </Modal>
         {burger}
-      
+<<<<<<< HEAD
+
+=======
+>>>>>>> parent of cb0b4f0... enzyme test
       </Aux>
     )
   }
