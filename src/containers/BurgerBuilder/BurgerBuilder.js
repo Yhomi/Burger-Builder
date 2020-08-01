@@ -142,7 +142,7 @@ class BurgerBuilder extends Component{
           {orderSummary}
         </Modal>
         {burger}
-        {this.props.ings}
+      
       </Aux>
     )
   }
