@@ -18,9 +18,9 @@
   margin-bottom: 20px;
 }
 
-@media (min-width:500px) {
+@media (max-width:500px) {
   .SideDraw{
-    display: none;
+    display: block;
   }
 }
 .Open{

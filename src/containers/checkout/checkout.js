@@ -5,10 +5,8 @@ import ContactDetails from '../ContactDetails/ContactDetails';
 import {connect} from 'react-redux';
 
 
-class Checkout extends React.Component {
-  componentDidMount(){
+const Checkout= props => {
 
-  }
   // state={
   //   ingredients:null,
   //   totalPrice:0
@@ -27,31 +25,31 @@ class Checkout extends React.Component {
   //   }
   //   this.setState({ingredients:ingredients,totalPrice:price})
   // }
-  checkoutCancelHandler = ()=>{
-    this.props.history.goBack();
+  const checkoutCancelHandler = ()=>{
+    props.history.goBack();
   }
-  checkoutContinueHandler = ()=>{
-    this.props.history.replace('/checkout/details')
+  const checkoutContinueHandler = ()=>{
+    props.history.replace('/checkout/details')
   }
-  render () {
+
     let summary =(<Redirect to="/" />)
-    if(this.props.ings){
-      const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> :null
+    if(props.ings){
+      const purchasedRedirect = props.purchased ? <Redirect to="/" /> :null
       summary = (
         <div>
           {purchasedRedirect}
-          <CheckoutSummary ingredients={this.props.ings}
-             checkoutCancel={this.checkoutCancelHandler}
-             checkoutContinue={this.checkoutContinueHandler}
+          <CheckoutSummary ingredients={props.ings}
+             checkoutCancel={checkoutCancelHandler}
+             checkoutContinue={checkoutContinueHandler}
               />
-            <Route path={this.props.match.path + '/details'} exact component={ContactDetails}/>
+            <Route path={props.match.path + '/details'} exact component={ContactDetails}/>
         </div>
       )
     }
 
     return summary
 
-  }
+  
 }
 const mapStateToProps = state =>{
   return{

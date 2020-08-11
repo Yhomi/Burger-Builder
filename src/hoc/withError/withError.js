@@ -1,42 +1,48 @@
-import React,{Component} from 'react';
+import React,{useEffect,useState} from 'react';
 import Modal from '../../components/UI/Modal/Modal';
 import Aux from '../Auxiliary';
 
 const withError =(WrappedComponent,axios)=>{
-  return class extends Component{
-    state={
-      errorVal:null
-    }
-    UNSAFE_componentWillMount(){
-      this.reqInterceptors=axios.interceptors.request.use(req=>{
-        this.setState({errorVal:null})
+  return props =>{
+    // state={
+    //   errorVal:null
+    // }
+    const [error,setError] = useState(null)
+
+      const reqInterceptors=axios.interceptors.request.use(req=>{
+        setError(null)
         return req;
       })
-      this.resInterceptors=axios.interceptors.response.use(res=>{
+      const resInterceptors=axios.interceptors.response.use(res=>{
         return res;
 
-      },error=>{
-        this.setState({errorVal:error})
+      },err=>{
+        setError(err)
       })
+
+    useEffect(()=>{
+      return ()=>{
+        axios.interceptors.request.eject(reqInterceptors)
+        axios.interceptors.response.eject(resInterceptors)
+      }
+    },[reqInterceptors,resInterceptors]);
+  // componentWillUnmount(){
+  //
+  //   axios.interceptors.request.eject(this.reqInterceptors)
+  //   axios.interceptors.response.eject(this.resInterceptors)
+  // }
+    const errorClosedHandler =()=>{
+      setError(null)
     }
-  componentWillUnmount(){
-  
-    axios.interceptors.request.eject(this.reqInterceptors)
-    axios.interceptors.response.eject(this.resInterceptors)
-  }
-    errorClosedHandler =()=>{
-      this.setState({errorVal:null})
-    }
-    render(){
+
       return(
         <Aux>
-          <Modal show={this.state.errorVal} modalClosed={this.errorClosedHandler}>
-            {this.state.errorVal ? this.state.errorVal.message : null}
+          <Modal show={error} modalClosed={errorClosedHandler}>
+            {error ? error.message : null}
           </Modal>
-          <WrappedComponent {...this.props} />
+          <WrappedComponent {...props} />
         </Aux>
       )
-    }
   }
 }
 
